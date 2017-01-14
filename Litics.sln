@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Litics.Common", "Litics\Litics.Common.csproj", "{8D3C968E-AA3E-48BC-8B2D-13904FE97482}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Litics.DAL", "Litics.DAL\Litics.DAL.csproj", "{6518E6F5-AE27-4C7C-9591-6524558DDB95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Litics.Controller", "Litics.Controller\Litics.Controller.csproj", "{1918C309-D589-45A7-99ED-E0A79E742502}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Litics.Controller.Tests", "Litics.Controller.Tests\Litics.Controller.Tests.csproj", "{77BE35E3-C764-4237-BCAA-8D0278C8FFFB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8D3C968E-AA3E-48BC-8B2D-13904FE97482}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D3C968E-AA3E-48BC-8B2D-13904FE97482}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D3C968E-AA3E-48BC-8B2D-13904FE97482}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D3C968E-AA3E-48BC-8B2D-13904FE97482}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6518E6F5-AE27-4C7C-9591-6524558DDB95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6518E6F5-AE27-4C7C-9591-6524558DDB95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6518E6F5-AE27-4C7C-9591-6524558DDB95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6518E6F5-AE27-4C7C-9591-6524558DDB95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1918C309-D589-45A7-99ED-E0A79E742502}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1918C309-D589-45A7-99ED-E0A79E742502}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1918C309-D589-45A7-99ED-E0A79E742502}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1918C309-D589-45A7-99ED-E0A79E742502}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77BE35E3-C764-4237-BCAA-8D0278C8FFFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77BE35E3-C764-4237-BCAA-8D0278C8FFFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77BE35E3-C764-4237-BCAA-8D0278C8FFFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77BE35E3-C764-4237-BCAA-8D0278C8FFFB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
