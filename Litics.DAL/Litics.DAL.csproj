@@ -59,6 +59,7 @@
     <Compile Include="Elasticsearch\ElasticsearchRepository.cs" />
     <Compile Include="Elasticsearch\Helpers\ClientConfig.cs" />
     <Compile Include="Elasticsearch\Helpers\ElasticsearchBase.cs" />
+    <Compile Include="Elasticsearch\Helpers\ElasticsearchHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

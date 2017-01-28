@@ -10,7 +10,10 @@ namespace Litics.DAL.Elasticsearch.Helpers
     {
         //Account id
         public string UID { get; set; } 
-        public long Timestamp { get; set; }
+        public DateTime Timestamp {
+            get { return DateTime.UtcNow; }
+        }
+        public string DocumentType { get; set; }
         public T Value { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Litics.DAL.Elasticsearch.Helpers
 {
-    public class ClientConfig
+    public class ElasticsearchClientConfig
     {
         public Uri Uri { get; set; }
     }
