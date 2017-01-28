@@ -184,9 +184,68 @@ namespace Litics.DAL.Elasticsearch
                 Logger.Debug($"Get Document Async Done! IndexName: {_elasticsearchIndexName}, From DateMath {fromDateMath}, To DateMath: {toDateMath}");
                 return doc;
             }
+            catch (Exception ex)
+            {
+                Logger.
+                    Error($"Get Document Async Error! IndexName: {_elasticsearchIndexName}, Type: {typeName}, From DateMath {fromDateMath}, To DateMath: {toDateMath}, Msg: {ex.Message}");
+                throw;
+            }
+        }
+
+        public async Task<byte[]> GetFieldSumAsync(string fieldName, string typeName, string fromDateMath, string toDateMath = "now")
+        {
+            try
+            {
+                Logger.Debug($"Get Document Async... IndexName: {_elasticsearchIndexName}, Type: {typeName}, From DateMath {fromDateMath}, To DateMath: {toDateMath}");
+                var result = await _client.SearchAsync<object>(search => search.Index(_currentAlias).Type(typeName)
+                .Aggregations(a => a.DateHistogram("projects_started_per_month", dh => dh.Field("Timestamp").Interval(DateInterval.Minute)
+                    .Aggregations(aa => aa.Sum("commits", sm => sm.Field($"{typeName}.{fieldName}"))))                
+                .SumBucket("sum_of_commits", aaa => aaa.BucketsPath("projects_started_per_month>commits")))
+                .Query(query => query.DateRange(q => q.Field("Timestamp").GreaterThanOrEquals(DateMath.FromString(fromDateMath)).LessThanOrEquals(DateMath.FromString(toDateMath)))).Sort(sort => sort.Descending("Timestamp")));
+
+                return result.ApiCall.ResponseBodyInBytes;
+            }
             catch (Exception)
             {
-                Logger.Error($"Get Document Async Error! IndexName: {_elasticsearchIndexName}, Type: {typeName}, From DateMath {fromDateMath}, To DateMath: {toDateMath}");
+
+                throw;
+            }
+        }
+        public async Task<byte[]> GetFieldAvgAsync(string fieldName, string typeName, string fromDateMath, string toDateMath = "now")
+        {
+            try
+            {
+                Logger.Debug($"Get Document Async... IndexName: {_elasticsearchIndexName}, Type: {typeName}, From DateMath {fromDateMath}, To DateMath: {toDateMath}");
+                var result = await _client.SearchAsync<object>(search => search.Index(_currentAlias).Type(typeName)
+                .Aggregations(a => a.DateHistogram("projects_started_per_month", dh => dh.Field("Timestamp").Interval(DateInterval.Minute)
+                    .Aggregations(aa => aa.Average("commits", sm => sm.Field($"{typeName}.{fieldName}"))))
+                .AverageBucket("sum_of_commits", aaa => aaa.BucketsPath("projects_started_per_month>commits")))
+                .Query(query => query.DateRange(q => q.Field("Timestamp").GreaterThanOrEquals(DateMath.FromString(fromDateMath)).LessThanOrEquals(DateMath.FromString(toDateMath)))).Sort(sort => sort.Descending("Timestamp")));
+
+                return result.ApiCall.ResponseBodyInBytes;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public async Task<byte[]> GetFieldStatsAsync(string fieldName, string typeName, string fromDateMath, string toDateMath = "now")
+        {
+            try
+            {
+                Logger.Debug($"Get Document Async... IndexName: {_elasticsearchIndexName}, Type: {typeName}, From DateMath {fromDateMath}, To DateMath: {toDateMath}");
+                var result = await _client.SearchAsync<object>(search => search.Index(_currentAlias).Type(typeName)
+                .Aggregations(a => a.DateHistogram("projects_started_per_month", dh => dh.Field("Timestamp").Interval(DateInterval.Minute)
+                    .Aggregations(aa => aa.Stats("commits", sm => sm.Field($"{typeName}.{fieldName}")))))
+                //.StatsBucket("sum_of_commits", aaa => aaa.BucketsPath("projects_started_per_month>commits")))
+                .Query(query => query.DateRange(q => q.Field("Timestamp").GreaterThanOrEquals(DateMath.FromString(fromDateMath)).LessThanOrEquals(DateMath.FromString(toDateMath)))).Sort(sort => sort.Descending("Timestamp")));
+
+                return result.ApiCall.ResponseBodyInBytes;
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }
