@@ -31,8 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.4.1\lib\net45\NLog.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\NLog.4.4.11\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -46,17 +45,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BusinessLogic\Configuration.cs" />
+    <Compile Include="BusinessLogic\ElasticsearchRepository.cs" />
     <Compile Include="BusinessLogic\Interfaces\IConfiguration.cs" />
+    <Compile Include="BusinessLogic\Interfaces\IElasticsearchRepository.cs" />
+    <Compile Include="Entities\App.cs" />
+    <Compile Include="Entities\Enum\RolesType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Litics.DAL\Litics.DAL.csproj">
       <Project>{6518e6f5-ae27-4c7c-9591-6524558ddb95}</Project>
       <Name>Litics.DAL</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

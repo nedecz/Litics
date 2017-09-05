@@ -13,18 +13,32 @@ namespace Litics.DAL.Elasticsearch.Tests
     [TestClass()]
     public class ElasticsearchRepositoryTests
     {
-        ElasticsearchRepository _client;
+        Elasticsearch _client;
 
         [TestInitialize]
         public void TestCaseInit()
         {
-            _client = new ElasticsearchRepository("828c94dd-b9e8-42f3-8d6b-dbdfa8c28cb7", new ElasticsearchClientConfig { Uri = new Uri("http://localhost:9200/") });
+            _client = new Elasticsearch(new ElasticsearchClientConfig { Uri = new Uri("http://localhost:9200/") });
         }
 
         [TestMethod()]
         public async Task CreateIndexTest()
         {
-            var result = await _client.AddDocumentAsync(new ElasticsearchBase<object>
+            var result = await _client.AddDocumentAsync("828c94dd-b9e8-42f3-8d6b-dbdfa8c28cb7", new ElasticsearchBase<object>
+            {
+                DocumentType = "testDocument",
+                UID = Guid.NewGuid().ToString(),
+                Value = new
+                {
+                    Temp = 20,
+                    Humid = 10,
+                    ID = "afsaf"
+                }
+            });
+
+
+
+            result = await _client.AddDocumentAsync("828c94dd-b9e8-42f3-8d6b-dbdfa8c28cb7", new ElasticsearchBase<object>
             {
                 DocumentType = "testDocument",
                 UID = Guid.NewGuid().ToString(),
@@ -41,26 +55,27 @@ namespace Litics.DAL.Elasticsearch.Tests
         [TestMethod()]
         public async Task GetDocumentsAsyncTest()
         {
-            var result = await _client.GetDocumentsAsync("testDocument", "now-5h");
+            var result = await _client.GetDocumentsAsync("828c94dd-b9e8-42f3-8d6b-dbdfa8c28cb7","testDocument", "now-5h");
+            var str = System.Text.Encoding.Default.GetString(result);
             Assert.IsNotNull(result);
         }
 
         [TestMethod()]
         public async Task GetFieldSumAsyncTest()
         {
-            var result = await _client.GetFieldSumAsync("Temp","testDocument", "now-10h");
+            var result = await _client.GetFieldSumAsync("828c94dd-b9e8-42f3-8d6b-dbdfa8c28cb7", "Temp","testDocument", "now-10h");
             Assert.IsNotNull(new object { });
         }
         [TestMethod()]
         public async Task GetFieldAvgAsyncTest()
         {
-            var result = await _client.GetFieldAvgAsync("Temp", "testDocument", "now-10h");
+            var result = await _client.GetFieldAvgAsync("828c94dd-b9e8-42f3-8d6b-dbdfa8c28cb7", "Temp", "testDocument", "now-10h");
             Assert.IsNotNull(new object { });
         }
         [TestMethod()]
         public async Task GetFieldStatsAsyncTest()
         {
-            var result = await _client.GetFieldStatsAsync("Temp", "testDocument", "now-10h");
+            var result = await _client.GetFieldStatsAsync("828c94dd-b9e8-42f3-8d6b-dbdfa8c28cb7", "Temp", "testDocument", "now-10h");
             Assert.IsNotNull(new object { });
         }
     }

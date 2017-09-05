@@ -1,4 +1,6 @@
-﻿using Microsoft.Practices.Unity;
+﻿using Litics.BusinessLogic;
+using Litics.BusinessLogic.Interfaces;
+using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Mvc;
 using System;
 using System.Collections.Generic;
@@ -23,12 +25,13 @@ namespace Litics.Controller.Init
             // register all your components with the container here  
             //This is the important line to edit  
             //container.RegisterType<ICompanyRepository, CompanyRepository>();
+            container.RegisterType<IConfiguration, Configuration>(new ContainerControlledLifetimeManager());
+
             RegisterTypes(container);
             return container;
         }
         public static void RegisterTypes(IUnityContainer container)
         {
-
         }
     }
 }

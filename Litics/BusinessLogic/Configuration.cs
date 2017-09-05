@@ -11,7 +11,7 @@ namespace Litics.BusinessLogic
         {
             get
             {
-                return new ElasticsearchClientConfig { Uri = new Uri(WebConfigurationManager.AppSettings["PFUserName"]) };
+                return new ElasticsearchClientConfig { Uri = new Uri(WebConfigurationManager.AppSettings["ElasticsearchNode"]) };
             }
         }
     }
