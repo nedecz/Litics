@@ -1,0 +1,66 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net452</TargetFramework>
+    <RuntimeIdentifier>win7-x86</RuntimeIdentifier>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="wwwroot\app\components\dashboard.component.js" />
+    <Content Include="wwwroot\app\components\datacenter.component.js" />
+    <Content Include="wwwroot\app\components\linuxservers.component.js" />
+    <Content Include="wwwroot\app\components\patchDashboard.component.js" />
+    <Content Include="wwwroot\app\components\report.component.js" />
+    <Content Include="wwwroot\app\components\search.component.js" />
+    <Content Include="wwwroot\app\components\servers.component.js" />
+    <Content Include="wwwroot\app\components\update.component.js" />
+    <Content Include="wwwroot\app\config.js" />
+    <Content Include="wwwroot\app\controllers\indexCtrl.js" />
+    <Content Include="wwwroot\app\controllers\linuxupdateCtrl.js" />
+    <Content Include="wwwroot\app\controllers\mainCtrl.js" />
+    <Content Include="wwwroot\app\env.js" />
+    <Content Include="wwwroot\app\services\alert.service.js" />
+    <Content Include="wwwroot\app\services\class.service.js" />
+    <Content Include="wwwroot\app\services\dashboard.service.js" />
+    <Content Include="wwwroot\app\services\dataCenter.service.js" />
+    <Content Include="wwwroot\app\services\linuxServer.service.js" />
+    <Content Include="wwwroot\app\services\linuxUpdate.service.js" />
+    <Content Include="wwwroot\app\services\patchdashboard.service.js" />
+    <Content Include="wwwroot\app\services\report.service.js" />
+    <Content Include="wwwroot\app\services\rpc.service.js" />
+    <Content Include="wwwroot\app\services\search.service.js" />
+    <Content Include="wwwroot\app\services\server.service.js" />
+    <Content Include="wwwroot\app\services\update.service.js" />
+    <Content Include="wwwroot\app\views\addserver.html" />
+    <Content Include="wwwroot\app\views\common\content.html" />
+    <Content Include="wwwroot\app\views\common\topnavbar.html" />
+    <Content Include="wwwroot\app\views\common\unauthenticated\content.html" />
+    <Content Include="wwwroot\app\views\common\unauthenticated\topnavbar.html" />
+    <Content Include="wwwroot\app\views\dashboard.html" />
+    <Content Include="wwwroot\app\views\datacenters.html" />
+    <Content Include="wwwroot\app\views\linuxserverinfo.html" />
+    <Content Include="wwwroot\app\views\linuxservers.html" />
+    <Content Include="wwwroot\app\views\linuxupdateinfo.html" />
+    <Content Include="wwwroot\app\views\patchdashboard.html" />
+    <Content Include="wwwroot\app\views\reportdisplay.html" />
+    <Content Include="wwwroot\app\views\reports.html" />
+    <Content Include="wwwroot\app\views\search.html" />
+    <Content Include="wwwroot\app\views\serverinfo.html" />
+    <Content Include="wwwroot\app\views\servers.html" />
+    <Content Include="wwwroot\app\views\updateinfo.html" />
+    <Content Include="wwwroot\app\views\updates.html" />
+    <Content Include="wwwroot\index.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
+  </ItemGroup>
+
+</Project>

@@ -62,6 +62,24 @@ namespace Litics.Controller
             }
             return selectedUser;
         }
+        public async Task<Account> FindAccountByAppIdAsync(string appId)
+        {
+            Account account = null;
+            using (var context = new ApplicationDbContext())
+            {
+                account = await context.Account.SingleOrDefaultAsync(acc => acc.AppId == appId);
+                return account;
+            }
+        }
+        public async Task<string> GetEsIndexByAppIdAsync(string appId)
+        {
+            Account account = null;
+            using (var context = new ApplicationDbContext())
+            {
+                account = await context.Account.SingleOrDefaultAsync(acc => acc.AppId == appId);
+                return account.EsIndex;
+            }
+        }
 
         public async Task<Account> FindAccountAsync(string accountName)
         {
@@ -81,6 +99,36 @@ namespace Litics.Controller
 
                 var account = await context.Account.SingleOrDefaultAsync(acc => acc.Id == userAccId.AccountId);
                 return account;
+            }
+        }
+        public async Task<AppInformation> GetApp(string accountId)
+        {
+            try
+            {
+                Logger.Debug($"GetApp... AccountId: {accountId}");
+                using (var context = new ApplicationDbContext())
+                {
+                    var account = await context.Account.SingleOrDefaultAsync(acc => acc.Id == accountId);
+                    if (account.AppId != null && account.ApiKey != null)
+                    {
+                        var app = new AppInformation()
+                        {
+                            AppId = account.AppId
+                        };
+                        Logger.Debug($"GetApp Done! AccountId: {accountId}");
+                        return app;
+                    }
+                    else
+                    {
+                        Logger.Debug($"GetApp Not Found! AccountId: {accountId}");
+                        return null;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"GetApp Error! AccountId: {accountId}, Msg: {ex.ToString()}");
+                throw;
             }
         }
         public async Task<AppInformation> CreateApp(string accountId)
@@ -125,7 +173,6 @@ namespace Litics.Controller
                     var account = await context.Account.SingleOrDefaultAsync(acc => acc.Id == accountId);
                     if (account.AppId != null && account.ApiKey != null)
                     {
-                        account.AppId = Guid.NewGuid().ToString();
                         account.ApiKey = GenerateAppKey();
                         await context.SaveChangesAsync();
                         var app = new AppInformation()
@@ -179,6 +226,7 @@ namespace Litics.Controller
                 throw;
             }
         }
+
         public async Task<string> CreateEsIndex(string accountId)
         {
             try
@@ -244,6 +292,17 @@ namespace Litics.Controller
             }
         }
 
+        public async Task<ApplicationUser> GetUserAsync(string requesterUserId, string userId)
+        {
+            ApplicationUser resultUser = null;
+            using (var context = new ApplicationDbContext())
+            {
+                var selectedUser = await context.Users.Include(p => p.Account).Include(i => i.Roles).FirstOrDefaultAsync(user => user.Id == requesterUserId);
+                resultUser = await context.Users.Include(p => p.Account).Include(i => i.Roles).Where(acc => acc.AccountId == selectedUser.AccountId).FirstOrDefaultAsync(user=>user.Id == userId);
+                return resultUser;
+            }
+        }
+
         public virtual async Task<IdentityResult> AddUserToRolesAsync(
        string userId, IList<string> roles)
         {
@@ -295,6 +354,32 @@ namespace Litics.Controller
 
             // Call update once when all roles are removed
             return await UpdateAsync(user).ConfigureAwait(false);
+        }
+
+        public async Task<IdentityResult> LockUserAccount(string userId, int? forDays)
+        {
+            var result = await SetLockoutEnabledAsync(userId, true);
+            if (result.Succeeded)
+            {
+                if (forDays.HasValue)
+                {
+                    result = await SetLockoutEndDateAsync(userId, DateTimeOffset.UtcNow.AddDays(forDays.Value));
+                }
+                else
+                {
+                    result = await SetLockoutEndDateAsync(userId, DateTimeOffset.MaxValue);
+                }
+            }
+            return result;
+        }
+        public async Task<IdentityResult> UnlockUserAccount(string userId)
+        {
+            var result = await SetLockoutEnabledAsync(userId, false);
+            if (result.Succeeded)
+            {
+                await ResetAccessFailedCountAsync(userId);
+            }
+            return result;
         }
 
         private string GenerateAppKey()

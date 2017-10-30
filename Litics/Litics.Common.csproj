@@ -48,7 +48,9 @@
     <Compile Include="BusinessLogic\ElasticsearchRepository.cs" />
     <Compile Include="BusinessLogic\Interfaces\IConfiguration.cs" />
     <Compile Include="BusinessLogic\Interfaces\IElasticsearchRepository.cs" />
+    <Compile Include="BusinessLogic\Responses\UserResponse.cs" />
     <Compile Include="Entities\App.cs" />
+    <Compile Include="Entities\ElasticsearchRepositoryResponse.cs" />
     <Compile Include="Entities\Enum\RolesType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

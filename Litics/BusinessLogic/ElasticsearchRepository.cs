@@ -1,11 +1,8 @@
 ﻿using Litics.BusinessLogic.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Litics.DAL.Elasticsearch.Helpers;
 using Litics.DAL.Elasticsearch;
+using System.Collections.Generic;
 
 namespace Litics.BusinessLogic
 {
@@ -24,6 +21,16 @@ namespace Litics.BusinessLogic
         public async Task<bool> AddDocumentAsync(string elasticsearchIndexName, ElasticsearchBase<object> document)
         {
             return await _client.AddDocumentAsync(elasticsearchIndexName, document);
+        }
+
+        public async Task<byte[]> GetDocumentsAsync(string elasticsearchIndexName, string typeName, string fromDateMath, string toDateMath = "now")
+        {
+            return await _client.GetDocumentsAsync(elasticsearchIndexName, typeName, fromDateMath, toDateMath);
+        }
+
+        public async Task<byte[]> GetMultiDocumentsAsync(string elasticsearchIndexName, Dictionary<string, string> queries)
+        {
+            return await _client.GetMultiDocumentsAsync(elasticsearchIndexName, queries);
         }
     }
 }

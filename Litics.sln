@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Litics.Common", "Litics\Litics.Common.csproj", "{8D3C968E-AA3E-48BC-8B2D-13904FE97482}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Litics.Controller.Tests", "Litics.Controller.Tests\Litics.Controller.Tests.csproj", "{77BE35E3-C764-4237-BCAA-8D0278C8FFFB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Litics.DAL.Tests", "Litics.DAL.Tests\Litics.DAL.Tests.csproj", "{A0D682CA-1508-4BD1-92B6-D979132A3406}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Litics.UI", "Litics.UI\Litics.UI.csproj", "{14A91BDC-4684-4BBB-9687-42B9C1234EE5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{A0D682CA-1508-4BD1-92B6-D979132A3406}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0D682CA-1508-4BD1-92B6-D979132A3406}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0D682CA-1508-4BD1-92B6-D979132A3406}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14A91BDC-4684-4BBB-9687-42B9C1234EE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14A91BDC-4684-4BBB-9687-42B9C1234EE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14A91BDC-4684-4BBB-9687-42B9C1234EE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14A91BDC-4684-4BBB-9687-42B9C1234EE5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

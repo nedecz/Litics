@@ -30,7 +30,7 @@ namespace Litics.DAL.Elasticsearch.Tests
                 UID = Guid.NewGuid().ToString(),
                 Value = new
                 {
-                    Temp = 20,
+                    Temp = 22,
                     Humid = 10,
                     ID = "afsaf"
                 }
@@ -40,12 +40,12 @@ namespace Litics.DAL.Elasticsearch.Tests
 
             result = await _client.AddDocumentAsync("828c94dd-b9e8-42f3-8d6b-dbdfa8c28cb7", new ElasticsearchBase<object>
             {
-                DocumentType = "testDocument",
+                DocumentType = "testDoc",
                 UID = Guid.NewGuid().ToString(),
                 Value = new
                 {
                     Temp = 20,
-                    Humid = 10,
+                    Humid = 14,
                     ID = "afsaf"
                 }
             });
@@ -55,7 +55,7 @@ namespace Litics.DAL.Elasticsearch.Tests
         [TestMethod()]
         public async Task GetDocumentsAsyncTest()
         {
-            var result = await _client.GetDocumentsAsync("828c94dd-b9e8-42f3-8d6b-dbdfa8c28cb7","testDocument", "now-5h");
+            var result = await _client.GetDocumentsAsync("828c94dd-b9e8-42f3-8d6b-dbdfa8c28cb7", "testDocument", "now-5h");
             var str = System.Text.Encoding.Default.GetString(result);
             Assert.IsNotNull(result);
         }
@@ -63,7 +63,7 @@ namespace Litics.DAL.Elasticsearch.Tests
         [TestMethod()]
         public async Task GetFieldSumAsyncTest()
         {
-            var result = await _client.GetFieldSumAsync("828c94dd-b9e8-42f3-8d6b-dbdfa8c28cb7", "Temp","testDocument", "now-10h");
+            var result = await _client.GetFieldSumAsync("828c94dd-b9e8-42f3-8d6b-dbdfa8c28cb7", "Temp", "testDocument", "now-10h");
             Assert.IsNotNull(new object { });
         }
         [TestMethod()]
@@ -77,6 +77,15 @@ namespace Litics.DAL.Elasticsearch.Tests
         {
             var result = await _client.GetFieldStatsAsync("828c94dd-b9e8-42f3-8d6b-dbdfa8c28cb7", "Temp", "testDocument", "now-10h");
             Assert.IsNotNull(new object { });
+        }
+
+        [TestMethod()]
+        public async Task GetMultiDocumentsAsyncTest()
+        {
+            var dict = new Dictionary<string, string>();
+            dict.Add("testDocument", "{\r\n    \"query\": {\r\n        \"range\" : {\r\n            \"Timestamp\" : {\r\n                \"gte\" : \"now-1d\"\r\n            }\r\n        }\r\n    }\r\n}");
+            await _client.GetMultiDocumentsAsync("828c94dd-b9e8-42f3-8d6b-dbdfa8c28cb7", dict);
+            Assert.Fail();
         }
     }
 }

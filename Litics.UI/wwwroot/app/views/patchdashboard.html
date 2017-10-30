@@ -1,0 +1,181 @@
+<div class="container-fluid">
+    <h1>Patch Dashboard</h1>
+    <br />
+    <div class="row-sm-12">
+        <div class="col-sm-2">
+            <form>
+                <div class="form-group">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Filtering missing patches:</div>
+                        <div class="panel-body">
+                            <select class="form-control" id="sel1" class="col-sm-3">
+                        <option>All missing</option>
+                        <option>Moderate or Higher</option>
+                        <option>High or Higher</option>
+                         <option>Criticals</option>
+                    </select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="panel panel-primary">
+                <div class="panel-heading">Group results by</div>
+                <div class="panel-body">
+                    <div class="btn-group-vertical col-sm-12">
+                        <button type="button" ng-click="$ctrl.clearGroupResults()" class="btn btn-success">Clear Grouping</button>
+                        <button type="button" class="btn btn-primary">PCI affected</button>
+                        <button type="button" class="btn btn-primary">Internal/External</button>
+                        <button type="button" ng-class="$ctrl.groupedBy == 'Product' ? 'btn btn-primary active' :'btn btn-primary'" ng-click="$ctrl.getGroupByProductResults()">Product</button>
+                        <button type="button" ng-class="$ctrl.groupedBy == 'Owner' ? 'btn btn-primary active' :'btn btn-primary'" ng-click="$ctrl.rerender(); $ctrl.getGroupByOwnerResults();">Owner</button>
+                        <button type="button" ng-class="$ctrl.groupedBy == 'Location (DC)' ? 'btn btn-primary active' :'btn btn-primary'" ng-click="$ctrl.getGroupByLocationResults()">Location (DC)</button>
+                        <button type="button" ng-class="$ctrl.groupedBy == 'OS' ? 'btn btn-primary active' :'btn btn-primary'" ng-click="$ctrl.getGroupByOSResults()">OS</button>
+                        <button type="button" class="btn btn-primary">Environment</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-9">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Results</div>
+                <div class="panel-body">
+                    <table datatable="ng" dt-options="{searching:false, paging: false, sorting: false, info: false}" class="table table-bordered table-responsive">
+                        <thead>
+                            <tr>
+                                <th ng-class="head == 'Patch Pending' ? 'warning' : (head == 'Vulnerable' ? 'danger' : 'info')" ng-repeat="(key,head) in $ctrl.totalPatchResult.headers track by $index">
+                                    {{head}}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="(rowKey, row) in $ctrl.totalPatchResult.values track by $index">
+                                <td ng-repeat="(key, value) in row">{{value}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row row-eq-height">
+                <div ng-if="$ctrl.groupedBy" class="col-sm-6">
+                    <!--  TABLES  -->
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Results grouped by {{$ctrl.groupedBy}}</div>
+                        <!--  PRODUCT  -->
+                        <div ng-if="$ctrl.groupedBy == 'Product'" class="panel-body">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+                                </span>
+                                <input class="form-control" placeholder="Search for..." ng-model="search.$">
+                            </div>
+                            <br />
+                            <table datatable="ng" dt-options="$ctrl.dtOptions" class="table table-bordered table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th ng-class="head == 'Patch Pending' ? 'warning' : (head == 'Vulnerable' ? 'danger' : 'info')" ng-repeat="(key,head) in $ctrl.groupedProductPatchResult.headers">{{head}}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="(rowKey, row) in $ctrl.groupedProductPatchResult.values | filter:search:strict">
+                                        <td ng-repeat="(key, value) in row">{{value}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--  OWNER   -->
+                        <div ng-if="$ctrl.groupedBy == 'Owner'" class="panel-body">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+                                </span>
+                                <input class="form-control" placeholder="Search for..." ng-model="search.$">
+                            </div>
+                            <br />
+                            <table datatable="ng" dt-options="$ctrl.dtOptions" class="table table-bordered table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th ng-class="head == 'Patch Pending' ? 'warning' : (head == 'Vulnerable' ? 'danger' : 'info')" ng-repeat="(key,head) in $ctrl.groupedOwnerPatchResult.headers">{{head}}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="(rowKey, row) in $ctrl.groupedOwnerPatchResult.values | filter:search:strict">
+                                        <td ng-repeat="(key, value) in row">{{value}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--  LOCATION (DC)   -->
+                        <div ng-if="$ctrl.groupedBy == 'Location (DC)'" class="panel-body">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+                                </span>
+                                <input class="form-control" placeholder="Search for..." ng-model="search.$">
+                            </div>
+                            <br />
+                            <table datatable="ng" dt-options="$ctrl.dtOptions" class="table table-bordered table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th ng-class="head == 'Patch Pending' ? 'warning' : (head == 'Vulnerable' ? 'danger' : 'info')" ng-repeat="(key,head) in $ctrl.groupedLocationPatchResult.headers">{{head}}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="(rowKey, row) in $ctrl.groupedLocationPatchResult.values | filter:search:strict">
+                                        <td ng-repeat="(key, value) in row">{{value}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--  OS   -->
+                        <div ng-if="$ctrl.groupedBy == 'OS'" class="panel-body">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+                                </span>
+                                <input class="form-control" placeholder="Search for..." ng-model="search.$">
+                            </div>
+                            <br />
+                            <table datatable="ng" dt-options="$ctrl.dtOptions" class="table table-bordered table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th ng-class="head == 'Patch Pending' ? 'warning' : (head == 'Vulnerable' ? 'danger' : 'info')" ng-repeat="(key,head) in $ctrl.groupedOsPatchResult.headers">{{head}}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="(rowKey, row) in $ctrl.groupedOsPatchResult.values | filter:search:strict">
+                                        <td ng-repeat="(key, value) in row">{{value}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!--  Charts   -->
+                <div ng-if="$ctrl.groupedBy" class="col-sm-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Results chart grouped by {{$ctrl.groupedBy}}</div>
+                        <!--  PRODUCT   -->
+                        <div ng-if="$ctrl.groupedBy == 'Product'" class="panel-body">
+                            <canvas id="productChart" chart-options="$ctrl.chartObject.ChartOptions" class="chart chart-bar" chart-data="$ctrl.chartObject.Data"
+                                chart-labels="$ctrl.chartObject.Labels" chart-series="$ctrl.chartObject.Series" ng-if="$ctrl.chartObject.Data"></canvas>
+                        </div>
+                        <!--  OWNER   -->
+                        <div ng-if="$ctrl.groupedBy == 'Owner'" class="panel-body">
+                            <canvas id="productChart" chart-options="$ctrl.chartObject.ChartOptions" class="chart chart-bar" chart-data="$ctrl.chartObject.Data"
+                                chart-labels="$ctrl.chartObject.Labels" chart-series="$ctrl.chartObject.Series" ng-if="$ctrl.chartObject.Data"></canvas>
+                        </div>
+                        <!--  LOCATION (DC)   -->
+                        <div ng-if="$ctrl.groupedBy == 'Location (DC)'" class="panel-body">
+                            <canvas id="productChart" chart-options="$ctrl.chartObject.ChartOptions" class="chart chart-bar" chart-data="$ctrl.chartObject.Data"
+                                chart-labels="$ctrl.chartObject.Labels" chart-series="$ctrl.chartObject.Series" ng-if="$ctrl.chartObject.Data"></canvas>
+                        </div>
+                        <!--  OS   -->
+                        <div ng-if="$ctrl.groupedBy == 'OS'" class="panel-body">
+                            <canvas id="productChart" chart-options="$ctrl.chartObject.ChartOptions" class="chart chart-bar" chart-data="$ctrl.chartObject.Data"
+                                chart-labels="$ctrl.chartObject.Labels" chart-series="$ctrl.chartObject.Series" ng-if="$ctrl.chartObject.Data"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

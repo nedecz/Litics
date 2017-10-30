@@ -7,6 +7,8 @@ using NLog;
 using System.Threading;
 using Elasticsearch.Net;
 using System.Diagnostics;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Litics.DAL.Elasticsearch
 {
@@ -98,7 +100,7 @@ namespace Litics.DAL.Elasticsearch
             try
             {
                 elasticsearchIndexName = elasticsearchIndexName + "*";
-;                Logger.Debug($"Get Document Async... IndexName: {elasticsearchIndexName}, Type: {typeName}, From DateMath {fromDateMath}, To DateMath: {toDateMath}");
+                ; Logger.Debug($"Get Document Async... IndexName: {elasticsearchIndexName}, Type: {typeName}, From DateMath {fromDateMath}, To DateMath: {toDateMath}");
                 var result = await _client.SearchAsync<object>(search => search.Index(elasticsearchIndexName).Type(typeName)
                 .Query(query => query.DateRange(q => q.Field("Timestamp").GreaterThanOrEquals(DateMath.FromString(fromDateMath)).LessThanOrEquals(DateMath.FromString(toDateMath)))).Sort(sort => sort.Descending("Timestamp")));
 
@@ -168,6 +170,40 @@ namespace Litics.DAL.Elasticsearch
             catch (Exception)
             {
 
+                throw;
+            }
+        }
+        public async Task <byte[]>GetMultiDocumentsAsync(string elasticsearchIndexName, Dictionary<string, string> queries)
+        {
+            try
+            {
+                elasticsearchIndexName = elasticsearchIndexName + "*";
+                Logger.Debug($"Get MultiDocument Async... IndexName: {elasticsearchIndexName}");
+                var operations = new Dictionary<string, ISearchRequest>();
+                foreach (var query in queries)
+                {
+                    dynamic obj = JsonConvert.DeserializeObject(query.Value);
+                    var json = JsonConvert.SerializeObject(obj.query);
+                    var searchquery = new SearchRequest(elasticsearchIndexName, query.Key)
+                    {
+                        Query = new RawQuery(json),
+
+                    };
+                    operations.Add(null, searchquery);
+                }
+
+                var request = new MultiSearchRequest
+                {
+                    Operations = operations
+                };
+                var response = await _client.MultiSearchAsync(request);
+                var results = response.ApiCall.ResponseBodyInBytes;
+                return results;
+            }
+            catch (Exception ex)
+            {
+                Logger.
+                   Error($"Get MultiDocument Async Error! IndexName: {elasticsearchIndexName}, Msg: {ex.Message}");
                 throw;
             }
         }

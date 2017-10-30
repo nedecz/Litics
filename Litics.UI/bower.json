@@ -1,0 +1,26 @@
+{
+  "name": "asp.net",
+  "private": true,
+  "dependencies": {
+    "angular": "v1.6.5",
+    "bootstrap": "v3.3.7",
+    "angular-bootstrap": "2.5.0",
+    "PACE": "pace#v1.0.2",
+    "angular-ui-router": "1.0.8",
+    "moment": "2.18.1",
+    "angular-moment": "1.0.1",
+    "angular-nicescroll": "v0.0.9",
+    "jquery.nicescroll": "jquery-nicescroll#v3.6.8-fix",
+    "angular-filter": "v0.5.16",
+    "angular-chart.js": "1.1.1",
+    "angular-bindonce": "0.3.3",
+    "checklist-model": "0.11.0",
+    "angular-datatables": "v0.6.2",
+    "datatables-buttons": "1.4.2",
+    "chart.js": "Chart.js#v2.7.0",
+    "gridstack": "0.3.0"
+  },
+  "resolutions": {
+    "angular": "v1.6.5"
+  }
+}

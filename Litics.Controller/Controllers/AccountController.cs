@@ -13,14 +13,14 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using System.Web.Security;
 using Litics.Controller.Models;
-using Litics.Controller.BusinessLogic.Helper;
-using System.Security.Claims;
-using Microsoft.Owin.Security.OAuth;
 using Litics.Entities.Enum;
+using System.Web.Http.Cors;
+using Litics.BusinessLogic.Responses;
 
 namespace Litics.Controller.Controllers
 {
     [Authorize]
+    [EnableCors("*", "*", "*")]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
@@ -40,7 +40,7 @@ namespace Litics.Controller.Controllers
             AccessTokenFormat = accessTokenFormat;
         }
 
-        public ApplicationUserManager UserManager
+        protected ApplicationUserManager UserManager
         {
             get
             {
@@ -52,7 +52,7 @@ namespace Litics.Controller.Controllers
             }
         }
 
-        public ApplicationRoleManager RoleManager
+        protected ApplicationRoleManager RoleManager
         {
             get
             {
@@ -69,6 +69,7 @@ namespace Litics.Controller.Controllers
         // GET api/Account/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
+        [System.Web.Mvc.ValidateAntiForgeryToken]
         public UserInfoViewModel GetUserInfo()
         {
 
@@ -77,23 +78,67 @@ namespace Litics.Controller.Controllers
                 Email = User.Identity.GetUserName(),
             };
         }
+        [Authorize(Roles = "Administrator,PowerUser,Guest")]
         [HttpGet]
         [Route("GetUsers")]
+        [System.Web.Mvc.ValidateAntiForgeryToken]
         public async Task<IHttpActionResult> GetUsers()
         {
             var users = await UserManager.GetUsersAsync(User.Identity.GetUserId());
-            return Ok(users.Select(s => new
+            var result = users.Select(s => new UserResponse
             {
-                s.Account.Name,
-                s.UserName,
-                s.Email,
-                roles = s.Roles.Select(r => new { RoleManager.FindById(r.RoleId).Name })
-            }));
+                UserId = s.Id,
+                AccountName = s.Account.Name,
+                AccountId = s.Account.Id,
+                UserName = s.UserName,
+                Email = s.Email,
+                Roles = s.Roles.Select(r => new { RoleManager.FindById(r.RoleId).Name }.Name),
+                Locked = s.LockoutEnabled
+            });
+            return Ok(result);
+        }
+        [Authorize(Roles = "Administrator,PowerUser,Guest")]
+        [HttpGet]
+        [Route("GetUser")]
+        [System.Web.Mvc.ValidateAntiForgeryToken]
+        public async Task<IHttpActionResult> GetUser(string id)
+        {
+            var user = await UserManager.GetUserAsync(User.Identity.GetUserId(), id);
+            var result = new UserResponse
+            {
+                UserId = user.Id,
+                AccountName = user.Account.Name,
+                AccountId = user.Account.Id,
+                UserName = user.UserName,
+                Email = user.Email,
+                Roles = user.Roles.Select(r => new { RoleManager.FindById(r.RoleId).Name }.Name),
+                Locked = user.LockoutEnabled
+
+            };
+            return Ok(result);
+        }
+        [Authorize(Roles = "Administrator")]
+        [HttpGet]
+        [Route("GetApp")]
+        [System.Web.Mvc.ValidateAntiForgeryToken]
+        public async Task<IHttpActionResult> GetApp()
+        {
+            var account = await UserManager.FindAccountByUserIdAsync(User.Identity.GetUserId());
+            var app = await UserManager.GetApp(account.Id);
+            if (app != null)
+            {
+                return Ok(app);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         [Authorize(Roles = "Administrator")]
         [HttpPost]
         [Route("CreateApp")]
+        [System.Web.Mvc.ValidateAntiForgeryToken]
         public async Task<IHttpActionResult> CreateApp()
         {
             var account = await UserManager.FindAccountByUserIdAsync(User.Identity.GetUserId());
@@ -110,7 +155,37 @@ namespace Litics.Controller.Controllers
 
         [Authorize(Roles = "Administrator")]
         [HttpPost]
+        [Route("ModifyApp")]
+        [System.Web.Mvc.ValidateAntiForgeryToken]
+        public async Task<IHttpActionResult> ModifyApp()
+        {
+            var account = await UserManager.FindAccountByUserIdAsync(User.Identity.GetUserId());
+            var app = await UserManager.ModifyApp(account.Id);
+            if (app != null)
+            {
+                return Ok(app);
+            }
+            else
+            {
+                return Ok($"Application is not exists!");
+            }
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpDelete]
+        [Route("DeleteApp")]
+        [System.Web.Mvc.ValidateAntiForgeryToken]
+        public async Task<IHttpActionResult> DeleteApp()
+        {
+            var account = await UserManager.FindAccountByUserIdAsync(User.Identity.GetUserId());
+            var isSucceed = await UserManager.DeleteApp(account.Id);
+            return isSucceed ? Ok("Application deletion was succesfull!") : Ok("Application deletion failed");
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpPost]
         [Route("CreateEsIndex")]
+        [System.Web.Mvc.ValidateAntiForgeryToken]
         public async Task<IHttpActionResult> CreateEsIndex()
         {
             var account = await UserManager.FindAccountByUserIdAsync(User.Identity.GetUserId());
@@ -124,38 +199,114 @@ namespace Litics.Controller.Controllers
                 return Ok($"Application is not exists!");
             }
         }
-            
-            
-            /*[HttpGet]
         [Authorize(Roles = "Administrator")]
-        [Route("CreateDeviceToken")]
-        public async Task<IHttpActionResult> CreateDeviceToken()
+        [HttpDelete]
+        [Route("DeleteEsIndex")]
+        [System.Web.Mvc.ValidateAntiForgeryToken]
+        public async Task<IHttpActionResult> DeleteEsIndex()
         {
-            var loggedUser = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            var accountId = loggedUser.AccountId;
-            var accountPassword = loggedUser.Account.ClientSecretHash;
-
-            var tokenExpiration = TimeSpan.FromDays(1);
-
-            ClaimsIdentity identity = new ClaimsIdentity(OAuthDefaults.AuthenticationType);
-           
-            identity.AddClaim(new Claim(ClaimTypes.Role, "Guest"));
-
-            var props = new AuthenticationProperties()
-            {
-                IssuedUtc = DateTime.UtcNow,
-                ExpiresUtc = DateTime.UtcNow.Add(tokenExpiration),
-            };
-
-            var ticket = new AuthenticationTicket(identity, props);
-
-            
-            var accessToken = Startup.OAuthOptions.AccessTokenFormat.Protect(ticket);
-
-
-            return Ok(accessToken);
+            var account = await UserManager.FindAccountByUserIdAsync(User.Identity.GetUserId());
+            var isSucceed = await UserManager.DeleteEsIndex(account.Id);
+            return isSucceed ? Ok("ES Index Delete was successfull!") : Ok("ES Index failed!");
         }
-        */
+        [Authorize(Roles = "Administrator,PowerUser,Guest")]
+        [HttpGet]
+        [Route("GetRoles")]
+        [System.Web.Mvc.ValidateAntiForgeryToken]
+        public IHttpActionResult GetRoles()
+        {
+            var roles = Enum.GetNames(typeof(RolesType));
+            return Ok(roles);
+        }
+        [Authorize(Roles = "Administrator, PowerUser")]
+        [HttpPost]
+        [Route("AddUserToRole")]
+        [System.Web.Mvc.ValidateAntiForgeryToken]
+        public async Task<IHttpActionResult> AddUserToRole(UserToRoleBindingModel user)
+        {
+
+            var addRoleResult = await UserManager.AddToRoleAsync(user.UserId, user.Role.ToString());
+
+            if (!addRoleResult.Succeeded)
+            {
+                return GetErrorResult(addRoleResult);
+            }
+            return Ok("Role successfully added!");
+        }
+        [Authorize(Roles = "Administrator, PowerUser")]
+        [HttpPost]
+        [Route("DeleteUserFromRole")]
+        [System.Web.Mvc.ValidateAntiForgeryToken]
+        public async Task<IHttpActionResult> DeleteUserFromRole(UserToRoleBindingModel user)
+        {
+            try
+            {
+                var removeFromRoleResult = await UserManager.RemoveFromRoleAsync(user.UserId, user.Role.ToString());
+                if (!removeFromRoleResult.Succeeded)
+                {
+                    return GetErrorResult(removeFromRoleResult);
+                }
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        [Authorize(Roles = "Administrator")]
+        [HttpPost]
+        [Route("LockUser")]
+        [System.Web.Mvc.ValidateAntiForgeryToken]
+        public async Task<IHttpActionResult> LockUser(string userId)
+        {
+            var lockResult = await UserManager.LockUserAccount(userId, null);
+            if (!lockResult.Succeeded)
+            {
+                return GetErrorResult(lockResult);
+            }
+            return Ok($"User with {userId} locked out!");
+        }
+        [Authorize(Roles = "Administrator")]
+        [HttpPost]
+        [Route("UnlockUser")]
+        [System.Web.Mvc.ValidateAntiForgeryToken]
+        public async Task<IHttpActionResult> UnlockUser(string userId)
+        {
+            var lockResult = await UserManager.UnlockUserAccount(userId);
+            if (!lockResult.Succeeded)
+            {
+                return GetErrorResult(lockResult);
+            }
+            return Ok($"User with {userId} unlocked!");
+        }
+        [Authorize(Roles = "Administrator")]
+        [HttpPost]
+        [Route("DeleteUser")]
+        [System.Web.Mvc.ValidateAntiForgeryToken]
+        public async Task<IHttpActionResult> DeleteUser(string userId)
+        {
+            try
+            {
+                var user = await UserManager.FindByIdAsync(userId);
+                var rolesForUser = await UserManager.GetRolesAsync(userId);
+                var rolesRemove = await UserManager.RemoveUserFromRolesAsync(userId, rolesForUser);
+                if (!rolesRemove.Succeeded)
+                {
+                    return BadRequest($"Roles remove succeded: {rolesRemove.Succeeded}");
+                }
+                var userRemove = await UserManager.DeleteAsync(user);
+                if (!userRemove.Succeeded)
+                {
+                    return BadRequest($"User remove succeded: {userRemove.Succeeded}");
+                }
+                return Ok($"User successfully deleted!");
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
         // POST api/Account/Logout
         [Route("Logout")]
         public IHttpActionResult Logout()

@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="updater">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.min.css">
+    <!--link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap-theme.min.css"-->
+    <link rel="stylesheet" href="https://bootswatch.com/flatly/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="lib/PACE/themes/green/pace-theme-minimal.css">
+    <link rel="stylesheet" type="text/css" href="css/site.css">
+    <link rel="stylesheet" type="text/css" href="lib/angular-datatables/dist/css/angular-datatables.min.css">
+    <link rel="stylesheet" type="text/css" href="lib/angular-datatables/dist/plugins/bootstrap/datatables.bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="lib/datatables/media/css/dataTables.bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.4.2/css/buttons.bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="lib/gridstack/dist/gridstack.min.css">
+    <link rel="stylesheet" type="text/css" href="lib/gridstack/dist/gridstack-extra.min.css">
+    <title>Updater Checker</title>
+</head>
+<!-- Navigation -->
+
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60" ng-controller="MainCtrl">
+    <div ui-view>
+    </div>
+</body>
+
+</html>
+<!-- Javascript Libraries -->
+<script src="lib/lodash/dist/lodash.min.js"></script>
+<script src="lib/jquery/dist/jquery.min.js"></script>
+<script src="lib/jquery-ui/jquery-ui.min.js"></script>
+<script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="lib/bootstrap/js/scrollspy.js"></script>
+<script src="lib/bootstrap/js/transition.js"></script>
+<script src="lib/moment/min/moment.min.js"></script>
+<script src="lib/jquery.nicescroll/dist/jquery.nicescroll.min.js"></script>
+<script src="lib/chart.js/dist/Chart.min.js"></script>
+<script src="lib/adal-angular/dist/adal.min.js"></script>
+<script src="lib/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="lib/datatables-buttons/js/dataTables.buttons.js"></script>
+<script src="lib/datatables-buttons/js/buttons.colVis.js"></script>
+<script src="lib/datatables-buttons/js/buttons.html5.js"></script>
+<script src="lib/datatables-buttons/js/buttons.print.js"></script>
+<script src="lib/datatables-buttons/js/buttons.bootstrap.js"></script>
+<script src="lib/gridstack/dist/gridstack.min.js"></script>
+<script src="lib/gridstack/dist/gridstack.jQueryUI.min.js"></script>
+<!-- Pace JS -->
+<script>
+    paceOptions = {
+        ajax: {
+            trackMethods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH', 'OPTION']
+        }
+    }
+
+</script>
+<script src="lib/PACE/pace.min.js"></script>
+
+<!-- Angular Libraries-->
+<script src="lib/angular/angular.js"></script>
+<script src="lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="lib/angular-ui-router/release/stateEvents.min.js"></script>
+<script src="lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+<script src="lib/angular-moment/angular-moment.min.js"></script>
+<script src="lib/angular-nicescroll/angular-nicescroll.js"></script>
+<script src="lib/angular-filter/dist/angular-filter.min.js"></script>
+<script src="lib/angular-chart.js/dist/angular-chart.min.js"></script>
+<script src="lib/angular-bindonce/bindonce.min.js"></script>
+<script src="lib/adal-angular/dist/adal-angular.min.js"></script>
+<script src="lib/checklist-model/checklist-model.js"></script>
+<script src="lib/angular-datatables/dist/angular-datatables.min.js"></script>
+<script src="lib/angular-datatables/dist/plugins/bootstrap/angular-datatables.bootstrap.min.js"></script>
+<script src="lib/angular-datatables/dist/plugins/buttons/angular-datatables.buttons.min.js"></script>
+<script src="lib/angular-datatables/dist/plugins/select/angular-datatables.select.min.js"></script>
+
+
+<!-- App Config -->
+<script src="app/env.js"></script>
+<script src="app/config.js"></script>
+<!-- Services -->
+<script src="app/services/patchDashboard.service.js"></script>
+<script src="app/services/authentication/authdata.js"></script>
+<script src="app/services/authentication/authentication.service.js"></script>
+<script src="app/services/login/login.service.js"></script>
+<script src="app/services/register/register.service.js"></script>
+<script src="app/services/accountManagment/account.service.js"></script>
+<!-- Controllers -->
+<script src="app/controllers/main.controller.js"></script>
+<!-- Components -->
+<script src="app/components/patchdashboard.component.js"></script>
+<script src="app/components/common/common.component.js"></script>
+<script src="app/components/common/topnavbar.component.js"></script>
+<script src="app/components/login/login.component.js"></script>
+<script src="app/components/register/register.component.js"></script>
+<script src="app/components/unauthenticated/common.component.js"></script>
+<script src="app/components/unauthenticated/topnavbar.component.js"></script>
+<script src="app/components/accountManagment/account.component.js"></script>
+<script src="app/components/accountManagment/users.component.js"></script>
+<script src="app/components/accountManagment/application.component.js"></script>
+<script src="app/components/dashboard/dashboard.component.js"></script>

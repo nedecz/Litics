@@ -1,0 +1,116 @@
+<style>
+    .selected {
+        background-color: lightsteelblue;
+    }
+</style>
+<div>
+    <h2>Users</h2>
+    <hr>
+    <div>
+        <table datatable="ng" class="table table-bordered table-responsive">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Account</th>
+                    <th>Roles</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-click="$ctrl.selectUser(row)" ng-class="{selected: row.UserId === $ctrl.selectedUser.UserId}" ng-repeat="row in $ctrl.users">
+                    <td>{{row.UserName}}</td>
+                    <td>{{row.Email}}</td>
+                    <td>{{row.AccountName}}</td>
+                    <td>
+                        <div ng-repeat="item in row.Roles">
+                            {{item}}
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="$ctrl.selectedUser">
+        <hr>
+        <h4>User Options</h4>
+        <hr>
+        <div class="btn-group btn-block">
+            <button type="button" class="btn btn-primary" ng-click="$ctrl.getRoles()" data-toggle="modal" data-target="#addRoleModal">Add User To Role</button>
+            <div class="modal fade" id="addRoleModal" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Add {{$ctrl.selectedUser.UserName}} to Role</h4>
+                        </div>
+                        <div class="modal-body">
+                            <h5>Roles</h5>
+                            <form name="roleForm">
+                                <label>Select a role for the User</label>
+                                <br>
+                                <select name="roleSelect" id="addRoleSelect" ng-model="$ctrl.selectedRole">
+                                    <option ng-repeat="option in $ctrl.roles" value="{{option}}">{{option}}</option>
+                                </select>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" ng-click="$ctrl.addUserToRole()" data-dismiss="modal">Submit</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#removeRoleModal">Remove User From Role</button>
+            <div class="modal fade" id="removeRoleModal" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Remove {{$ctrl.selectedUser.UserName}} from Role</h4>
+                        </div>
+                        <div class="modal-body">
+                            <h5>Roles</h5>
+                            <form name="roleForm">
+                                <label>Select a role for the User</label>
+                                <br>
+                                <select name="roleSelect" id="removeRoleSelect" ng-model="$ctrl.selectedRole">
+                                    <option ng-repeat="option in $ctrl.selectedUser.Roles" value="{{option}}">{{option}}</option>
+                                </select>
+                            </form>
+                            {{$ctrl.selectedRole}}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" ng-click="$ctrl.deleteUserFromRole()" data-dismiss="modal">Submit</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary" ng-click="$ctrl.unlockUser()">Unlock User</button>
+            <button type="button" class="btn btn-warning" ng-click="$ctrl.lockUser()">Lock User</button>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteUserModal">Delete User</button>
+            <div class="modal fade" id="deleteUserModal" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Delete selected User: {{$ctrl.selectedUser.UserName}}</h4>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to delete the user? ({{$ctrl.selectedUser.UserName}})
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" ng-click="$ctrl.deleteUser()" data-dismiss="modal">YES</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>

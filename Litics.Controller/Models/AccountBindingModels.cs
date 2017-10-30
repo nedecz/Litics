@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
+using Litics.Entities.Enum;
 
 namespace Litics.Controller.Models
 {
@@ -56,6 +57,16 @@ namespace Litics.Controller.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+    }
+
+    public class UserToRoleBindingModel
+    {
+        [Required]
+        [Display(Name = "Role")]
+        public RolesType Role { get; set; }
+        [Required]
+        [Display(Name = "UserId")]
+        public string UserId { get; set; }        
     }
 
     public class RegisterExternalBindingModel
