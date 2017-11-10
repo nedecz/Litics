@@ -8,7 +8,7 @@
     }
 })();
 
-var app = angular.module('updater', ['ui.router','ui.router.state.events', 'ui.bootstrap', 'angularMoment', 'angular-nicescroll', 'angular.filter', 'chart.js', 'pasvaz.bindonce', 'checklist-model', 'datatables', 'datatables.bootstrap', 'datatables.buttons'])
+var app = angular.module('updater', ['ui.router','ui.router.state.events', 'ui.bootstrap', 'angularMoment', 'angular-nicescroll', 'angular.filter', 'chart.js', 'pasvaz.bindonce', 'checklist-model', 'datatables', 'datatables.bootstrap', 'datatables.buttons','gridster','nvd3'])
     .constant('__env', __env)
     .config(['$stateProvider', '$locationProvider', '$urlRouterProvider', '__env', '$httpProvider',
         function ($stateProvider, $locationProvider, $urlRouterProvider, __env, $httpProvider) {

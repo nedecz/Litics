@@ -11,8 +11,8 @@
     <link rel="stylesheet" type="text/css" href="lib/angular-datatables/dist/plugins/bootstrap/datatables.bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="lib/datatables/media/css/dataTables.bootstrap.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.4.2/css/buttons.bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="lib/angular-gridster/dist/angular-gridster.min.css">
-    <link rel="stylesheet" type="text/css" href="lib/nvd3/build/nv.d3.min.css">
+    <link rel="stylesheet" type="text/css" href="lib/gridstack/dist/gridstack.min.css">
+    <link rel="stylesheet" type="text/css" href="lib/gridstack/dist/gridstack-extra.min.css">
     <title>Updater Checker</title>
 </head>
 <!-- Navigation -->
@@ -40,9 +40,8 @@
 <script src="lib/datatables-buttons/js/buttons.html5.js"></script>
 <script src="lib/datatables-buttons/js/buttons.print.js"></script>
 <script src="lib/datatables-buttons/js/buttons.bootstrap.js"></script>
-<script src="lib/javascript-detect-element-resize/jquery.resize.js"></script>
-<script src="lib/d3/d3.min.js"></script>
-<script src="lib/nvd3/build/nv.d3.min.js"></script>
+<script src="lib/gridstack/dist/gridstack.min.js"></script>
+<script src="lib/gridstack/dist/gridstack.jQueryUI.min.js"></script>
 <!-- Pace JS -->
 <script>
     paceOptions = {
@@ -57,7 +56,6 @@
 <!-- Angular Libraries-->
 <script src="lib/angular/angular.js"></script>
 <script src="lib/angular-ui-router/release/angular-ui-router.min.js"></script>
-<script src="lib/angular-ui-router/release/stateEvents.min.js"></script>
 <script src="lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 <script src="lib/angular-moment/angular-moment.min.js"></script>
 <script src="lib/angular-nicescroll/angular-nicescroll.js"></script>
@@ -70,11 +68,6 @@
 <script src="lib/angular-datatables/dist/plugins/bootstrap/angular-datatables.bootstrap.min.js"></script>
 <script src="lib/angular-datatables/dist/plugins/buttons/angular-datatables.buttons.min.js"></script>
 <script src="lib/angular-datatables/dist/plugins/select/angular-datatables.select.min.js"></script>
-<script src="lib/angular-gridster/dist/angular-gridster.min.js"></script>
-<script src="lib/angular-nvd3/dist/angular-nvd3.min.js"></script>
-
-
-
 
 
 <!-- App Config -->
@@ -82,11 +75,6 @@
 <script src="app/config.js"></script>
 <!-- Services -->
 <script src="app/services/patchDashboard.service.js"></script>
-<script src="app/services/authentication/authdata.js"></script>
-<script src="app/services/authentication/authentication.service.js"></script>
-<script src="app/services/login/login.service.js"></script>
-<script src="app/services/register/register.service.js"></script>
-<script src="app/services/accountManagment/account.service.js"></script>
 <!-- Controllers -->
 <script src="app/controllers/main.controller.js"></script>
 <!-- Components -->
@@ -96,9 +84,4 @@
 <script src="app/components/login/login.component.js"></script>
 <script src="app/components/register/register.component.js"></script>
 <script src="app/components/unauthenticated/common.component.js"></script>
-<script src="app/components/unauthenticated/topnavbar.component.js"></script>
-<script src="app/components/accountManagment/account.component.js"></script>
-<script src="app/components/accountManagment/users.component.js"></script>
-<script src="app/components/accountManagment/application.component.js"></script>
 <script src="app/components/dashboard/dashboard.component.js"></script>
-<script src="app/components/dashboard/widget.component.js"></script>

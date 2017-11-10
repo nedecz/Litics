@@ -9,11 +9,11 @@
                         <div class="panel-heading">Filtering missing patches:</div>
                         <div class="panel-body">
                             <select class="form-control" id="sel1" class="col-sm-3">
-                        <option>All missing</option>
-                        <option>Moderate or Higher</option>
-                        <option>High or Higher</option>
-                         <option>Criticals</option>
-                    </select>
+                                <option>All missing</option>
+                                <option>Moderate or Higher</option>
+                                <option>High or Higher</option>
+                                <option>Criticals</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -62,7 +62,9 @@
                         <!--  PRODUCT  -->
                         <div ng-if="$ctrl.groupedBy == 'Product'" class="panel-body">
                             <div class="input-group">
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </span>
                                 </span>
                                 <input class="form-control" placeholder="Search for..." ng-model="search.$">
                             </div>
@@ -84,7 +86,9 @@
                         <!--  OWNER   -->
                         <div ng-if="$ctrl.groupedBy == 'Owner'" class="panel-body">
                             <div class="input-group">
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </span>
                                 </span>
                                 <input class="form-control" placeholder="Search for..." ng-model="search.$">
                             </div>
@@ -106,7 +110,9 @@
                         <!--  LOCATION (DC)   -->
                         <div ng-if="$ctrl.groupedBy == 'Location (DC)'" class="panel-body">
                             <div class="input-group">
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </span>
                                 </span>
                                 <input class="form-control" placeholder="Search for..." ng-model="search.$">
                             </div>
@@ -128,7 +134,9 @@
                         <!--  OS   -->
                         <div ng-if="$ctrl.groupedBy == 'OS'" class="panel-body">
                             <div class="input-group">
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </span>
                                 </span>
                                 <input class="form-control" placeholder="Search for..." ng-model="search.$">
                             </div>

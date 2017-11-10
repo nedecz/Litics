@@ -1,5 +1,5 @@
 <style>
-    .grid-stack-item-content {
+    .gridster-item {
         background-color: white;
         border: 1px solid black;
         border-radius: 5px;
@@ -9,6 +9,59 @@
         background-color: #2c3e50;
         border-radius: 5px;
         border: 1px hidden;
+    }
+
+    .widget {
+        background-color: #5b86b1;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        color: white;
+        text-align: center;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        width: 100%;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .widgetHeader {
+        padding-bottom: 2px;
+    }
+
+    .box {
+        height: 100%;
+        /* border: 1px solid #ccc; */
+        background-color: #fff;
+        border-radius: 10px;
+    }
+
+    .box-header {
+        height: 30px;
+        background-color: #eee;
+        /* padding: 0 30px 0 10px; */
+        border-bottom: 1px solid #ccc;
+        cursor: move;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+    }
+
+    .box-header h3 {
+        width: 100%;
+        margin: 5px;
+        display: inline-block;
+    }
+
+    .box-content {
+        height: 95%;
+        padding: 4px;
+    }
+
+    .box-header-btns {
+        top: 15px;
+        right: 10px;
+        cursor: pointer;
+        position: absolute;
     }
 </style>
 <nav class="navbar navbar-inverse visible-xs">
@@ -21,22 +74,6 @@
             </button>
             <a class="navbar-brand" href="#">Logo</a>
         </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="nav navbar-nav">
-                <li>
-                    <a>Add Widget</a>
-                </li>
-                <li>
-                    <a>Save Dashboard</a>
-                </li>
-                <li>
-                    <a>Load Dashboard</a>
-                </li>
-                <li>
-                    <a>Delete Dashboard</a>
-                </li>
-            </ul>
-        </div>
     </div>
 </nav>
 
@@ -46,7 +83,7 @@
             <h2>Logo</h2>
             <ul class="nav nav-pills nav-stacked">
                 <li>
-                    <a>Add Widget</a>
+                    <a data-toggle="modal" data-target="#modal-id">Add Widget</a>
                 </li>
                 <li>
                     <a>Save Dashboard</a>
@@ -62,32 +99,38 @@
         </div>
         <br>
         <div class="col-sm-10">
-            <div id="gridstack" class="grid-stack grid-stack-12">
-                <div class="grid-stack-item" data-gs-x="0" data-gs-y="0" data-gs-width="12" data-gs-height="4">
-                    <div class="grid-stack-item-content">
-                        <div class="panel panel-default">
-                              <div class="panel-heading">
-                                    <h3 class="panel-title">Panel title</h3>
-                              </div>
-                        </div>
-                        asdsa
-                    </div>
-                </div>
-                <div class="grid-stack-item" data-gs-x="0" data-gs-y="0" data-gs-width="12" data-gs-height="4">
-                    <div class="grid-stack-item-content"></div>
-                </div>
+            <div id="gridstack" gridster="$ctrl.gridsterOptions">
+                <ul>
+                    <li gridster-item="widget" ng-repeat="widget in dashboard.widgets">
+                        <base-widget widget="widget" directive="widget.directive"></base-widget>
+                        <!--div class="box">
+                            <div class="box-header">
+                                <h3>{{ widget.name }}</h3>
+                            </div>
+                            <div class="box-content">
+                                <charts widget="widget" config="config" events="events"></charts>
+                            </div>
+                        </div-->
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    $(function () {
-        $('.grid-stack').gridstack({
-            width: 12,
-            float: true,
-            resizable: {
-                handles: 'e, se, s, sw, w'
-            }
-        });
-    });
-</script>
+<div class="modal fade" id="modal-id">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add Widget</h4>
+            </div>
+            <div class="modal-body">
+                <button type="button" ng-click="addWidget()" class="btn btn-default">button</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
